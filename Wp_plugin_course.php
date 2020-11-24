@@ -1,4 +1,5 @@
 <?php
+define( 'DIR_PATH', plugin_dir_path( __FILE__ ) );
 /**
  * Plugin Name:       WP_course_plugin
  * Plugin URI:        https://.../
@@ -9,28 +10,38 @@
  * Author URI:        https://.../
  */
 
-// API ключ
-$apiKey = "10b3b07a85737b4baa1309bf555b9aaa";
-// Город погода которого нужна
-$city = "Kharkiv";
-// Ссылка для отправки
-$url = "http://api.openweathermap.org/data/2.5/weather?q=" . $city . "&lang=ru&units=metric&appid=" . $apiKey;
-// Создаём запрос
-$ch = curl_init();
+if ( ! class_exists( 'DefinеHooks' ) ) {
+    class DefinеHooks {
 
-// Настройка запроса
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_URL, $url);
+        /**
+         * Constructor
+         */
+        public function __construct() {
+            $this->setup_actions();
+        }
+        /**
+         * Setting up Hooks
+         */
+        public function setup_actions() {
+            //Main plugin hooks
+            register_activation_hook( DIR_PATH, array( 'DefinеHooks', 'activate' ) );
+            register_deactivation_hook( DIR_PATH, array( 'DefinеHooks', 'deactivate' ) );
+        }
+        /**
+         * Activate callback
+         */
+        public static function activate() {
+            //Activation code in here
+        }
+        /**
+         * Deactivate callback
+         */
+        public static function deactivate() {
+            //Deactivation code in here
+        }
+    }
+    // instantiate the plugin class
+    $wp_plugin_template = new DefinеHooks();
+}
 
-// Отправляем запрос и получаем ответ
-$data = json_decode(curl_exec($ch));
-
-// Закрываем запрос
-curl_close($ch);
 ?>
-<!--<div class="weather">-->
-<!--    <h2>Погода в городе --><?php //echo $data->name; ?><!--</h2>-->
-<!--<p>Погода: --><?php //echo $data->main->temp_min; ?><!--°C</p>-->
-<!--<p>Влажность: --><?php //echo $data->main->humidity; ?><!-- %</p>-->
-<!--<p>Ветер: --><?php //echo $data->wind->speed; ?><!-- км/ч</p>-->
-<!--</div>-->
