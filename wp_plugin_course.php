@@ -24,6 +24,7 @@ WheatherShortcode::registration();
 WheatherShortcode::renderShortcode();
 */
 
+add_action('admin_menu', 'mt_add_pages');
 
 // action function for above hook
 function mt_add_pages()
