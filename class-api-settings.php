@@ -5,11 +5,10 @@ class View
 {
     public static function api()
     {
-        $apiOptions = (require_once(DIR_PLUGIN_PATH . 'config.php'))['api'];
         // API ключ
-        $apiKey = $apiOptions['apiKey'];
+        $apiKey = get_option('api_options');
         // Город погода которого нужна
-        $city = $apiOptions['city'];
+        $city = get_option('city_name');
         // Ссылка для отправки
         $url = "http://api.openweathermap.org/data/2.5/weather?q=" . $city . "&lang=ru&units=metric&appid=" . $apiKey;
         // Создаём запрос
